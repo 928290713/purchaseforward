@@ -17,6 +17,14 @@ public class User {
         this.rule = rule;
     }
 
+    public User(String username, String password, String rule, String email, String qq) {
+        this.username = username;
+        this.password = password;
+        this.rule = rule;
+        this.email = email;
+        this.qq = qq;
+    }
+
     public String getId() {
         return id;
     }
