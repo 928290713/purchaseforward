@@ -6,6 +6,16 @@ public class Good {
     private String  goodtype;
     private Double  price;
     private String  pic;
+    private Integer amount;
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
 
     public Good() {
     }

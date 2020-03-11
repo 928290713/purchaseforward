@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<%@page contentType="text/html; charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -54,14 +56,16 @@
 				<th bgcolor="#ffffff">小计</th>
 				<th bgcolor="#ffffff">操作</th>
 			</tr>
-			<tr>
-				<td bgcolor="#ffffff" align="center">001</td>
-				<td bgcolor="#ffffff" align="center">aaaa</td>
-				<td bgcolor="#ffffff" align="center">11</td>
-				<td bgcolor="#ffffff" align="center"><input type="text" value="2"/></td>
-				<td bgcolor="#ffffff" align="center">123</td>
-				<td bgcolor="#ffffff" align="center"><a href="##">删除</a></td>
-			</tr>
+			<c:forEach items="${requestScope.car}" var="good">
+				<tr>
+					<td bgcolor="#ffffff" align="center">${good.id}</td>
+					<td bgcolor="#ffffff" align="center">${good.goodname}</td>
+					<td bgcolor="#ffffff" align="center">${good.price}</td>
+					<td bgcolor="#ffffff" align="center"><input type="text" value="${good.amount}"/></td>
+					<td bgcolor="#ffffff" align="center">${good.price*good.amount}</td>
+					<td bgcolor="#ffffff" align="center"><a href="##">删除</a></td>
+				</tr>
+			</c:forEach>
 		</table>
 		<table width="99%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
 			<tr>
