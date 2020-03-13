@@ -57,7 +57,7 @@ public class UserSvl extends HttpServlet {
         User user = new User(username,password,null,null,null);
         boolean result = userService.queryLoginUser(user);
         if (result){
-            response.sendRedirect("main.jsp");
+            response.sendRedirect("GoodSvl?reqType=main");
         }else {
             request.setAttribute("info","账号或密码错误");
             request.getRequestDispatcher("login.jsp").forward(request,response);
@@ -139,7 +139,7 @@ public class UserSvl extends HttpServlet {
         if (result){
             HttpSession session = request.getSession();
             session.setAttribute("user",user);
-            response.sendRedirect("main.jsp");
+            response.sendRedirect("GoodSvl?reqType=main");
         }else {
             request.setAttribute("info","注册失败");
             request.getRequestDispatcher("register.jsp").forward(request,response);

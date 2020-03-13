@@ -30,10 +30,10 @@
 
 <!--顶层功能导航栏-->
 <div id="mainNav" class="clearfix">
-	<a href="main.jsp" class="cur">首页<span></span></a>
+	<a href="GoodSvl?reqType=main" class="cur">首页<span></span></a>
 	<a href="###">买家必看<span></span></a>
 	<a href="###">优惠活动<span></span></a>
-	<a href="flow.jsp">查看购物车<span></span></a>
+	<a href="GoodSvl?reqType=addCar&goodid=0">查看购物车<span></span></a>
 	<a href="###">报价单<span></span></a>
 	<a href="###">留言板<span></span></a>
 	<a href="###">团购商品<span></span></a>
@@ -61,7 +61,7 @@
     	<div class="blank5"></div>
 		<!--左侧购物车-->
 		<div class="cart" id="ECS_CARTINFO">
- 			<a href="flow.php.htm" title="查看购物车">您的购物车中有 0 件商品，总计金额 ￥0.00元。</a>
+ 			<a href="" title="查看购物车">您的购物车中有${amounts-1}件商品，总计金额 ￥${balance}元。</a>
 		</div>
 		<div class="blank5"></div>
 		<!--左侧分类栏-->

@@ -4,6 +4,7 @@ import cn.eight.purchaseforward.pojo.Carbean;
 import cn.eight.purchaseforward.pojo.Good;
 import cn.eight.purchaseforward.service.GoodService;
 import cn.eight.purchaseforward.service.serviceImpl.GoodServiceImpl;
+import org.eclipse.jdt.internal.compiler.env.INameEnvironment;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -32,7 +33,65 @@ public class GoodSvl extends HttpServlet {
             uploadImg(request,response);
         }else if (reqType.equals("addCar")){
             addCar(request,response);
+        }else if (reqType.equals("delgood")){
+            delgood(request,response);
+        }else if (reqType.equals("cleanCar")){
+            cleanCar(request,response);
+        }else if (reqType.equals("modCar")){
+            modCar(request,response);
         }
+    }
+
+    private void modCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String[] goodids = request.getParameterValues("goodids");
+        String[] amounts = request.getParameterValues("amounts");
+        Integer[] goodids_int = new Integer[goodids.length];
+        Integer[] amounts_int = new Integer[amounts.length];
+        for (int i = 0; i < goodids.length; i++) {
+            if (amounts[i]==""){
+                amounts[i] = "0";
+            }
+            goodids_int[i] = Integer.valueOf(goodids[i]);
+            amounts_int[i] = Integer.valueOf(amounts[i]);
+        }
+        HttpSession session = request.getSession();
+        Carbean carbean = (Carbean) session.getAttribute("car");
+        if (carbean == null){
+            carbean = new Carbean();
+        }
+        carbean.modGood(goodids_int,amounts_int);
+        session.setAttribute("car",carbean);
+        List<Good> goodList = service.findGoodsByCarBean(carbean);
+        request.setAttribute("car",goodList);
+        request.getRequestDispatcher("flow.jsp").forward(request,response);
+    }
+
+    private void cleanCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Carbean carbean = (Carbean) session.getAttribute("car");
+        if (carbean == null){
+            carbean = new Carbean();
+        }
+        carbean.cleanCar();
+        session.setAttribute("car",carbean);
+        List<Good> goodList = service.findGoodsByCarBean(carbean);
+        request.setAttribute("car",goodList);
+        request.getRequestDispatcher("flow.jsp").forward(request,response);
+    }
+
+    private void delgood(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.valueOf(request.getParameter("goodid"));
+        HttpSession session = request.getSession();
+        Carbean carbean = (Carbean) session.getAttribute("car");
+        if (carbean==null){
+            carbean = new Carbean();
+        }
+        carbean.removeGood(id);
+        session.setAttribute("car",carbean);
+        //把商品呈现在购物车中
+        List<Good> goodList = service.findGoodsByCarBean(carbean);
+        request.setAttribute("car",goodList);
+        request.getRequestDispatcher("flow.jsp").forward(request,response);
     }
 
     //往购物车添加商品
@@ -94,6 +153,16 @@ public class GoodSvl extends HttpServlet {
             }
             goodListByType = service.findGoodsByType(goodType);
         }
+        HttpSession session = request.getSession();
+        Carbean carbean = (Carbean) session.getAttribute("car");
+        int amounts = 0;
+        double balance = 0;
+        if (carbean!=null){
+            amounts = carbean.getAmounts();
+            balance = carbean.getBalance();
+        }
+        request.setAttribute("amounts",amounts);
+        request.setAttribute("balance",balance);
         request.setAttribute("goodTypes",GoodTypeList);
         request.setAttribute("goodList",goodListByType);
         request.getRequestDispatcher("main.jsp").forward(request,response);

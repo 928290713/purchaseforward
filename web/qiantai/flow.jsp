@@ -6,6 +6,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title></title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
+	<script>
+		function delCar(){
+			window.location.href = "GoodSvl?reqType=cleanCar"
+        }
+	</script>
 </head>
 <body>
 <!--LOGO欢迎信息和登陆注册功能-->
@@ -28,10 +33,10 @@
 
 <!--顶层功能导航栏-->
 <div id="mainNav" class="clearfix">
-	<a href="main.jsp" class="cur">首页<span></span></a>
+	<a href="GoodSvl?reqType=main" class="cur">首页<span></span></a>
 	<a href="###">买家必看<span></span></a>
 	<a href="###">优惠活动<span></span></a>
-	<a href="flow.jsp">查看购物车<span></span></a>
+	<a href="GoodSvl?reqType=addCar&goodid=0">查看购物车<span></span></a>
 	<a href="###">报价单<span></span></a>
 	<a href="###">留言板<span></span></a>
 	<a href="###">团购商品<span></span></a>
@@ -46,7 +51,7 @@
 <!--购物车数据显示区-->
 <div class="flowBox">
 	<h6><span>商品列表</span></h6>
-	<form id="formCart" name="formCart" method="post" action="">
+	<form id="formCart" name="formCart" method="post" action="GoodSvl?reqType=modCar">
 		<table width="99%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
 			<tr>
 				<th bgcolor="#ffffff">商品编号</th>
@@ -58,12 +63,12 @@
 			</tr>
 			<c:forEach items="${requestScope.car}" var="good">
 				<tr>
-					<td bgcolor="#ffffff" align="center">${good.id}</td>
+					<td bgcolor="#ffffff" align="center">${good.id}<input type="hidden" name="goodids" value="${good.id}"></td>
 					<td bgcolor="#ffffff" align="center">${good.goodname}</td>
 					<td bgcolor="#ffffff" align="center">${good.price}</td>
-					<td bgcolor="#ffffff" align="center"><input type="text" value="${good.amount}"/></td>
+					<td bgcolor="#ffffff" align="center"><input type="text" name="amounts" value="${good.amount}"/></td>
 					<td bgcolor="#ffffff" align="center">${good.price*good.amount}</td>
-					<td bgcolor="#ffffff" align="center"><a href="##">删除</a></td>
+					<td bgcolor="#ffffff" align="center"><a href="GoodSvl?reqType=delgood&goodid=${good.id}">删除</a></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -73,7 +78,7 @@
 					购物金额总计计 ￥0.00元
 				</td>
 				<td align="right" bgcolor="#ffffff">
-					<input type="button" value="清空购物车" class="bnt_blue_1" onclick="" />
+					<input type="button" value="清空购物车" class="bnt_blue_1" onclick="delCar()" />
 					<input name="submit" type="submit" class="bnt_blue_1" value="更新购物车" />
 				</td>
 			</tr>
